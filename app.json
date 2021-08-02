@@ -1,0 +1,43 @@
+{
+  "expo": {
+    "name": "spark-app",
+    "slug": "spark-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#FFFFFF"
+      }
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "firebase": {
+        "apiKey": "AIzaSyAAXR2gwt7iwJiTImvikMnRnsL-1q0UMsQ",
+        "authDomain": "spark-73034.firebaseapp.com",
+        "projectId": "spark-73034",
+        "storageBucket": "spark-73034.appspot.com",
+        "messagingSenderId": "547293250087",
+        "appId": "1:547293250087:web:7bc6eab309bb94d7bdc402",
+        "measurementId": "G-QFG6S4FW3G"
+      }
+    }
+  }
+}

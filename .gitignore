@@ -1,0 +1,23 @@
+<<<<<<< HEAD
+**/node_modules/**/*
+**/.expo/*
+**/npm-debug.*
+=======
+node_modules/**/*
+.expo/*
+npm-debug.*
+>>>>>>> Created the launch screen.
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+<<<<<<< HEAD
+**/web-build/
+=======
+web-build/
+>>>>>>> Created the launch screen.
+
+# macOS
+.DS_Store
