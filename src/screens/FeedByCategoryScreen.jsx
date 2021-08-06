@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-export default FeedByCategoryScreen = () => {
+export const FeedByCategoryScreen = () => {
     return <Text>FeedByCategoryScreen</Text>;
 };

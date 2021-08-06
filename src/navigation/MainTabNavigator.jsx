@@ -1,13 +1,13 @@
 import React from 'react';
-import { Feather } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 
 // Navigators
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FeedTopTabNavigator } from './FeedTopNavigator';
 
 // Screens
-import PostScreen from '../screens/PostScreen';
-import ProfileScreen from '../screens/ProfileScreen';
+import { PostScreen } from '../screens/PostScreen';
+import { ProfileScreen } from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,7 +20,7 @@ export const MainTabNavigator = () => {
                 options={{
                     tabBarLabel: 'Feed',
                     tabBarIcon: ({ color, size }) => {
-                        <Feather name="home" color={color} size={size} />;
+                        return <AntDesign name="home" size={size} color={color} />;
                     },
                 }}
             />
@@ -30,7 +30,7 @@ export const MainTabNavigator = () => {
                 options={{
                     tabBarLabel: 'Post',
                     tabBarIcon: ({ color, size }) => {
-                        <Feather name="home" color={color} size={size} />;
+                        return <FontAwesome5 name="lightbulb" size={size} color={color} />;
                     },
                 }}
             />
@@ -40,7 +40,7 @@ export const MainTabNavigator = () => {
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ color, size }) => {
-                        <Feather name="home" color={color} size={size} />;
+                        return <FontAwesome5 name="user-circle" size={size} color={color} />;
                     },
                 }}
             />
