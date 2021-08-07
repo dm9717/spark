@@ -12,7 +12,7 @@ export const FeedByDefaultScreen = () => {
 
     useEffect(() => {
         getIdeasFromFirebase();
-    }, []);
+    }, [ideas]);
 
     const getIdeasFromFirebase = async () => {
         const ideas = await getIdeas();

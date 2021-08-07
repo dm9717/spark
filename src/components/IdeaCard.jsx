@@ -11,14 +11,18 @@ export const IdeaCard = ({ idea, onPress }) => {
             <Text style={styles.mainCategory}>{main_category}</Text>
             <Text style={styles.title}>{title}</Text>
             <Text style={styles.description}>{description}</Text>
-            {other_categories.map((category) => (
-                <Text style={styles.otherCategory}>{category}</Text>
+            {other_categories.map((category, index) => (
+                <Text style={styles.otherCategory} key={index}>
+                    {category}
+                </Text>
             ))}
-            {images.map((image) => (
-                <Image style={styles.image} source={{ uri: image }} />
+            {images.map((image, index) => (
+                <Image style={styles.image} source={{ uri: image }} key={index} />
             ))}
-            {open_roles.map((role) => (
-                <Text style={styles.oepnRole}>{role}</Text>
+            {open_roles.map((role, index) => (
+                <Text style={styles.openRole} key={index}>
+                    {role}
+                </Text>
             ))}
         </TouchableOpacity>
     );
@@ -56,7 +60,7 @@ const styles = StyleSheet.create({
         width: (width - 32) * 0.8,
         height: (width - 32) * 0.8 * 0.8,
     },
-    role: {
+    openRole: {
         fontSize: 14,
         color: '#000',
         marginTop: 8,
