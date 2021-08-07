@@ -1,0 +1,55 @@
+.card {
+    background-color: $white;
+    border-radius: 20px;
+    padding: 9px 19px 21px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 1px solid $black;
+}
+.flexWrapperOne {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+.headline {
+    width: 23.36%;
+    height: 50%;
+    color: $gray-5;
+    margin-right: 189px;
+    letter-spacing: -0.41px;
+    @include sf-headline;
+}
+.navTarget {
+    align-self: stretch;
+}
+.image {
+    margin-bottom: 10px;
+    align-self: stretch;
+}
+.flexWrapperTwo {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: flex-start;
+}
+.caption1 {
+    width: 14.47%;
+    color: $gray-5;
+    align-self: stretch;
+    margin-right: 226px;
+    @include sf-caption;
+}
+.caption2 {
+    width: 11.18%;
+    color: $gray-5;
+    align-self: stretch;
+    text-align: right;
+    @include sf-caption;
+}
+.body {
+    height: 9.61%;
+    color: $gray-5;
+    align-self: stretch;
+    letter-spacing: -0.41px;
+    @include sf-body;
+}
