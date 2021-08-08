@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 
 // functions
 import { getIdeas } from '../lib/firebase';
@@ -35,6 +35,8 @@ export const FeedByDefaultScreen = () => {
         </SafeAreaView>
     );
 };
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {

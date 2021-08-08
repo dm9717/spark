@@ -36,3 +36,5 @@ export const uploadMedia = async (uri, path) => {
     }
     return downloadUrl;
 };
+
+export const signin = async () => {};
