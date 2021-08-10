@@ -12,7 +12,7 @@ export const AppNavigator = () => {
     const { user } = useContext(UserContext);
     return (
         <NavigationContainer>
-            <MainTabNavigator />
+            {user == null ? <AuthScreen /> : <MainTabNavigator />}
         </NavigationContainer>
     );
 };
