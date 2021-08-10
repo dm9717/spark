@@ -47,21 +47,31 @@ export const signin = async () => {
             scopes: ['profile', 'email'],
         });
         if (result.type === 'success') {
-            const { email, displayName } = userCredential.user;
+            const { idToken, accessToken } = result;
+            const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
+            userCredential = await firebase.auth().signInWithCredential(credential);
+            const { uid, email, displayName } = userCredential.user;
             const initialUser = {
                 name: displayName,
+                username: email,
                 createdAt: firebase.firestore.Timestamp.now(),
+                updatedAt: firebase.firestore.Timestamp.now(),
             };
-            const userDoc = await firebase.firestore().collection('users').doc(email).get();
+            const userDoc = await firebase.firestore().collection('users').doc(uid).get();
             if (!userDoc.exists) {
-                await firebase.firestore().collection('users').doc(email).set(initialUser);
+                await firebase.firestore().collection('users').doc(uid).set(initialUser);
                 return {
-                    id: email,
+                    id: uid,
                     ...initialUser,
                 };
             } else {
+                await firebase.firestore().collection('users').doc(uid).update({
+                    name: displayName,
+                    username: email,
+                    updatedAt: firebase.firestore.Timestamp.now(),
+                });
                 return {
-                    id: email,
+                    id: uid,
                     ...userDoc.data(),
                 };
             }
