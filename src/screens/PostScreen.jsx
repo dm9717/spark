@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { StyleSheet, Text, TextInput, View, ScrollView, Button, Image } from 'react-native';
 import firebase from 'firebase';
 import { Video } from 'expo-av';
@@ -7,16 +7,21 @@ import { Video } from 'expo-av';
 import { pickMedia } from '../lib/media-picker';
 import { createIdeaRef, uploadMedia } from '../lib/firebase';
 import { getExtension } from '../utils/file';
-
 // components
 import { Loading } from '../components/Loading';
+// contexts
+import { UserContext } from '../contexts/userContext';
 
 export const PostScreen = () => {
+    const { user } = useContext(UserContext);
     const [mediaUri, setMediaUri] = useState('');
     const [mediaType, setMediaType] = useState('image');
     const [loading, setLoading] = useState(false);
     const [title, setTitle] = useState('');
-    const [tags, setTags] = useState('');
+    const [mainCategory, setMainCategory] = useState('');
+    const [otherCategory1, setOtherCategory1] = useState('');
+    const [otherCategory2, setOtherCategory2] = useState('');
+    const [otherCategory3, setOtherCategory3] = useState('');
     const [description, setDescription] = useState('');
     const [openRoles, setOpenRoles] = useState('');
 
@@ -42,17 +47,19 @@ export const PostScreen = () => {
         // Upload an idea to Firestore
         const idea = {
             id: ideaDocRef.id,
-            // user: {
-            //     name: user.name,
-            //     id: user.id,
-            // },
-            title: title,
-            description: description,
-            main_category: tags,
-            other_categories: [tags],
-            open_roles: [openRoles],
-            images: [donwloadUrl],
-            created_at: firebase.firestore.Timestamp.now(),
+            user: {
+                id: user.id,
+                name: user.name,
+                username: user.username,
+            },
+            title,
+            description,
+            mainCategory,
+            otherCategories: [otherCategory1, otherCategory2, otherCategory3],
+            openRoles: [openRoles],
+            media: [donwloadUrl],
+            createdAt: firebase.firestore.Timestamp.now(),
+            updatedAt: firebase.firestore.Timestamp.now(),
         };
         // Behind the scenes, .add(...) and .doc().set(...) are completely equivalent, so you can use whichever is more convenient.
         await ideaDocRef.set(idea);
@@ -74,19 +81,35 @@ export const PostScreen = () => {
                 onChangeText={(input) => setDescription(input)}
                 multiline={true}
             />
-            <Text style={styles.sectionTitle}>Add Tags</Text>
+            <Text style={styles.sectionTitle}>Main Category</Text>
             <TextInput
-                style={styles.tagInput}
-                value={tags}
-                onChangeText={(input) => setTags(input)}
+                style={styles.mainCategoryInput}
+                value={mainCategory}
+                onChangeText={(input) => setMainCategory(input)}
             />
-            <Text style={styles.sectionTitle}>Add Open Roles</Text>
+            <Text style={styles.sectionTitle}>Other Categories</Text>
+            <TextInput
+                style={styles.otherCategoryInput}
+                value={otherCategory1}
+                onChangeText={(input) => setOtherCategory1(input)}
+            />
+            <TextInput
+                style={styles.otherCategoryInput}
+                value={otherCategory2}
+                onChangeText={(input) => setOtherCategory2(input)}
+            />
+            <TextInput
+                style={styles.mainCategoryInput}
+                value={otherCategory3}
+                onChangeText={(input) => setOtherCategory3(input)}
+            />
+            <Text style={styles.sectionTitle}>Roles Needed</Text>
             <TextInput
                 style={styles.roleInput}
                 value={openRoles}
                 onChangeText={(input) => setOpenRoles(input)}
             />
-            <Text style={styles.sectionTitle}>Add Media</Text>
+            <Text style={styles.sectionTitle}>Media</Text>
             <Button title="Upload" onPress={onPickMedia} />
             {mediaType == 'image'
                 ? !!mediaUri && <Image source={{ uri: mediaUri }} style={styles.media} />
@@ -117,11 +140,17 @@ const styles = StyleSheet.create({
         borderWidth: 0.5,
         marginBottom: 32,
     },
-    tagInput: {
+    mainCategoryInput: {
         height: 22,
         borderColor: '#999',
         borderWidth: 0.5,
         marginBottom: 32,
+    },
+    otherCategoryInput: {
+        height: 22,
+        borderColor: '#999',
+        borderWidth: 0.5,
+        marginBottom: 8,
     },
     roleInput: {
         height: 22,

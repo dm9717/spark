@@ -3,13 +3,13 @@ import { View, StyleSheet, Text, Dimensions, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export const IdeaCard = ({ idea, onPress }) => {
-    const { description, images, main_category, open_roles, other_categories, title } = idea;
+    const { description, media, mainCategory, openRoles, otherCategories, title } = idea;
     return (
         <TouchableOpacity style={styles.container} onPress={onPress}>
-            <Text style={styles.mainCategory}>{main_category}</Text>
+            <Text style={styles.mainCategory}>{mainCategory}</Text>
             <View style={styles.mainView}>
                 <View style={styles.subView1}>
-                    {images.map((image, index) => (
+                    {media.map((image, index) => (
                         <Image style={styles.image} source={{ uri: image }} key={index} />
                     ))}
                 </View>
@@ -17,14 +17,14 @@ export const IdeaCard = ({ idea, onPress }) => {
                     <Text style={styles.title}>{title}</Text>
                     <Text style={styles.description}>{description}</Text>
                     <View style={styles.otherCategories}>
-                        {other_categories.map((category, index) => (
+                        {otherCategories.map((category, index) => (
                             <Text style={styles.otherCategory} key={index}>
                                 {category}
                             </Text>
                         ))}
                     </View>
                     <View style={styles.openRoles}>
-                        {open_roles.map((role, index) => (
+                        {openRoles.map((role, index) => (
                             <Text style={styles.openRole} key={index}>
                                 {role}
                             </Text>

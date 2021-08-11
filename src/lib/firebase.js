@@ -11,7 +11,7 @@ if (!firebase.apps.length) {
 }
 
 export const getIdeas = async () => {
-    const ideasRef = firebase.firestore().collection('ideas');
+    const ideasRef = firebase.firestore().collection('ideas').orderBy('updatedAt', 'desc');
     const ideasDoc = await ideasRef.get();
     const ideas = ideasDoc.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     return ideas;
