@@ -1,49 +1,72 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import {
     StyleSheet,
+    View,
     SafeAreaView,
-    ActivityIndicator,
     Text,
-    Button,
     TouchableOpacity,
     Image,
+    Dimensions,
 } from 'react-native';
-import { signin } from '../lib/firebase';
+// functions
+import { signInWithGoogle } from '../lib/firebase';
+// contexts
 import { UserContext } from '../contexts/userContext';
+// components
+import { Loading } from '../components/Loading';
 
 export const AuthScreen = () => {
     const { setUser } = useContext(UserContext);
-    useEffect(() => {
-        const fetchUser = async () => {
-            const user = await signin();
-            setUser(user);
-        };
-        fetchUser();
-    }, []);
+    const [loading, setLoading] = useState(false);
+    const signIn = async () => {
+        setLoading(true);
+        const user = await signInWithGoogle();
+        setUser(user);
+    };
     return (
         <SafeAreaView style={styles.container}>
-            <ActivityIndicator size="large" />
-            <Text style={styles.text}>ログイン中...</Text>
-            {/* <TouchableOpacity onPress={signin}>
+            <View style={styles.logoAndLoginText}>
+                <Image style={styles.logo} source={require('../../assets/images/logo.png')}></Image>
+                <Text style={styles.loginText}>Login</Text>
+            </View>
+            <TouchableOpacity onPress={signIn}>
                 <Image
-                    source={require('../../assets/images/btn_google_signin_dark_normal_web@2x.png')}
+                    style={styles.googleButton}
+                    source={require('../../assets/images/btn_google_signin_dark_normal_web_2x.png')}
                 />
-            </TouchableOpacity> */}
-            <Button title="Sign in" onPress={signin} />
+            </TouchableOpacity>
+            <Loading visible={loading} />
         </SafeAreaView>
     );
 };
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
     },
-    text: {
-        marginTop: 16,
-        fontSize: 12,
-        color: '#888',
+    logoAndLoginText: {
+        marginTop: 64,
+        alignItems: 'center',
+    },
+    logo: {
+        width: width * 0.4,
+        marginBottom: 32,
+        resizeMode: 'contain',
+    },
+    loginText: {
+        fontFamily: 'Helvetica',
+        fontSize: 32,
+        color: '#8C8B8B',
+    },
+    googleButton: {
+        width: width * 0.7,
+        marginBottom: 64,
+        alignItems: 'center',
+        resizeMode: 'contain',
     },
 });

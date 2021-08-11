@@ -2,8 +2,6 @@ import React from 'react';
 import { View, StyleSheet, Text, Dimensions, Image } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const { width } = Dimensions.get('window');
-
 export const IdeaCard = ({ idea, onPress }) => {
     const { description, images, main_category, open_roles, other_categories, title } = idea;
     return (
@@ -37,6 +35,8 @@ export const IdeaCard = ({ idea, onPress }) => {
         </TouchableOpacity>
     );
 };
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {

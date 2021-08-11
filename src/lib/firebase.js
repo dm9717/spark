@@ -38,7 +38,7 @@ export const uploadMedia = async (uri, path) => {
     return downloadUrl;
 };
 
-export const signin = async () => {
+export const signInWithGoogle = async () => {
     try {
         const result = await Google.logInAsync({
             iosClientId: '547293250087-fu9ug72kb168tt4hrqfg9shutj7lv9fb.apps.googleusercontent.com',
