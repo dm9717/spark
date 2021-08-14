@@ -8,6 +8,7 @@ import {
     Image,
     Dimensions,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 // functions
 import { signInWithGoogle } from '../lib/firebase';
 // contexts
@@ -18,11 +19,23 @@ import { Loading } from '../components/Loading';
 export const AuthScreen = () => {
     const { setUser } = useContext(UserContext);
     const [loading, setLoading] = useState(false);
+
     const signIn = async () => {
         setLoading(true);
         const user = await signInWithGoogle();
         setUser(user);
+        storeUserData(user);
     };
+
+    const storeUserData = async (user) => {
+        try {
+            const jsonUser = JSON.stringify(user);
+            await AsyncStorage.setItem('user', jsonUser);
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.logoAndLoginText}>

@@ -50,10 +50,11 @@ export const signInWithGoogle = async () => {
             const { idToken, accessToken } = result;
             const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
             userCredential = await firebase.auth().signInWithCredential(credential);
-            const { uid, email, displayName } = userCredential.user;
+            const { uid, email, displayName, photoURL } = userCredential.user;
             const initialUser = {
                 name: displayName,
                 username: email,
+                photoURL: photoURL,
                 createdAt: firebase.firestore.Timestamp.now(),
                 updatedAt: firebase.firestore.Timestamp.now(),
             };
@@ -68,6 +69,7 @@ export const signInWithGoogle = async () => {
                 await firebase.firestore().collection('users').doc(uid).update({
                     name: displayName,
                     username: email,
+                    photoURL: photoURL,
                     updatedAt: firebase.firestore.Timestamp.now(),
                 });
                 return {

@@ -11,9 +11,11 @@ import { getExtension } from '../utils/file';
 import { Loading } from '../components/Loading';
 // contexts
 import { UserContext } from '../contexts/userContext';
+import { MyIdeaContext } from '../contexts/myIdeaContext';
 
 export const PostScreen = () => {
     const { user } = useContext(UserContext);
+    const { myIdeas, setMyIdeas } = useContext(MyIdeaContext);
     const [mediaUri, setMediaUri] = useState('');
     const [mediaType, setMediaType] = useState('image');
     const [loading, setLoading] = useState(false);
@@ -63,6 +65,7 @@ export const PostScreen = () => {
         };
         // Behind the scenes, .add(...) and .doc().set(...) are completely equivalent, so you can use whichever is more convenient.
         await ideaDocRef.set(idea);
+        setMyIdeas([...myIdeas, idea]);
         setLoading(false);
     };
 

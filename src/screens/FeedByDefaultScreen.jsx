@@ -3,7 +3,6 @@ import { StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 
 // functions
 import { getIdeas } from '../lib/firebase';
-
 // components
 import { IdeaCard } from '../components/IdeaCard';
 
