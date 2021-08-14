@@ -23,8 +23,9 @@ export const AuthScreen = () => {
     const signIn = async () => {
         setLoading(true);
         const user = await signInWithGoogle();
-        setUser(user);
         storeUserData(user);
+        setLoading(false);
+        setUser(user);
     };
 
     const storeUserData = async (user) => {

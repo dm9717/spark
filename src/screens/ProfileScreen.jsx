@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import {
     StyleSheet,
     View,
@@ -9,16 +9,21 @@ import {
     Dimensions,
     TouchableOpacity,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // contexts
 import { UserContext } from '../contexts/userContext';
 import { MyIdeaContext } from '../contexts/myIdeaContext';
 // functions
 import { getIdeas } from '../lib/firebase';
+import { signOutWithGoogle } from '../lib/firebase';
+// components
+import { Loading } from '../components/Loading';
 
 export const ProfileScreen = () => {
-    const { user } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
     const { myIdeas, setMyIdeas } = useContext(MyIdeaContext);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getIdeasFromFirebase();
@@ -29,11 +34,28 @@ export const ProfileScreen = () => {
         setMyIdeas(ideas);
     };
 
+    const signOut = async () => {
+        setLoading(true);
+        await signOutWithGoogle(user.accessToken);
+        removeUserData();
+        setLoading(false);
+        setUser(null);
+    };
+
+    const removeUserData = async () => {
+        try {
+            await AsyncStorage.removeItem('user');
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
     return (
         <SafeAreaView>
             <View style={styles.profile}>
                 <Image style={styles.image} source={{ uri: user.photoURL }} />
                 <Text style={styles.name}>{user.name}</Text>
+                <Button title="Sign out" onPress={signOut} />
             </View>
             <View style={styles.ideaView}>
                 {myIdeas.map((item, index) => (
@@ -42,6 +64,7 @@ export const ProfileScreen = () => {
                     </TouchableOpacity>
                 ))}
             </View>
+            <Loading visible={loading} />
         </SafeAreaView>
     );
 };

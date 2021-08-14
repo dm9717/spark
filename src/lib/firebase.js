@@ -38,14 +38,15 @@ export const uploadMedia = async (uri, path) => {
     return downloadUrl;
 };
 
+const config = {
+    iosClientId: '547293250087-fu9ug72kb168tt4hrqfg9shutj7lv9fb.apps.googleusercontent.com',
+    androidClientId: '547293250087-6df6l77lkvc9i0iphe94kgavvl11q6om.apps.googleusercontent.com',
+    scopes: ['profile', 'email'],
+};
+
 export const signInWithGoogle = async () => {
     try {
-        const result = await Google.logInAsync({
-            iosClientId: '547293250087-fu9ug72kb168tt4hrqfg9shutj7lv9fb.apps.googleusercontent.com',
-            androidClientId:
-                '547293250087-6df6l77lkvc9i0iphe94kgavvl11q6om.apps.googleusercontent.com',
-            scopes: ['profile', 'email'],
-        });
+        const result = await Google.logInAsync(config);
         if (result.type === 'success') {
             const { idToken, accessToken } = result;
             const credential = firebase.auth.GoogleAuthProvider.credential(idToken, accessToken);
@@ -64,6 +65,7 @@ export const signInWithGoogle = async () => {
                 return {
                     id: uid,
                     ...initialUser,
+                    accessToken,
                 };
             } else {
                 await firebase.firestore().collection('users').doc(uid).update({
@@ -75,6 +77,7 @@ export const signInWithGoogle = async () => {
                 return {
                     id: uid,
                     ...userDoc.data(),
+                    accessToken,
                 };
             }
         } else {
@@ -83,4 +86,8 @@ export const signInWithGoogle = async () => {
     } catch (e) {
         console.log('An error occured');
     }
+};
+
+export const signOutWithGoogle = async (accessToken) => {
+    await Google.logOutAsync({ accessToken, ...config });
 };
