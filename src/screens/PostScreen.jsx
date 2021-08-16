@@ -13,7 +13,7 @@ import { Loading } from '../components/Loading';
 import { UserContext } from '../contexts/userContext';
 import { MyIdeaContext } from '../contexts/myIdeaContext';
 
-export const PostScreen = () => {
+export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
     const { user } = useContext(UserContext);
     const { myIdeas, setMyIdeas } = useContext(MyIdeaContext);
     const [mediaUri, setMediaUri] = useState('');
@@ -67,10 +67,12 @@ export const PostScreen = () => {
         await ideaDocRef.set(idea);
         setMyIdeas([...myIdeas, idea]);
         setLoading(false);
+        setMyNewIdeaPosted(!myNewIdeaPosted);
     };
 
     return (
         <ScrollView style={styles.container}>
+            <Text>{myNewIdeaPosted.toString()}</Text>
             <Text style={styles.sectionTitle}>Project Title</Text>
             <TextInput
                 style={styles.titleInput}

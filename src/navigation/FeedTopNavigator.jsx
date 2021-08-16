@@ -8,12 +8,18 @@ import { FeedByRoleScreen } from '../screens/FeedByRoleScreen';
 
 const Tab = createMaterialTopTabNavigator();
 
-export const FeedTopTabNavigator = () => {
+export const FeedTopTabNavigator = ({ myNewIdeaPosted }) => {
     return (
         <Tab.Navigator>
-            <Tab.Screen name="Fresh Ideas" component={FeedByDefaultScreen} />
-            <Tab.Screen name="Category" component={FeedByCategoryScreen} />
-            <Tab.Screen name="Role" component={FeedByRoleScreen} />
+            <Tab.Screen name="Fresh Ideas">
+                {() => <FeedByDefaultScreen myNewIdeaPosted={myNewIdeaPosted} />}
+            </Tab.Screen>
+            <Tab.Screen name="Category">
+                {() => <FeedByCategoryScreen myNewIdeaPosted={myNewIdeaPosted} />}
+            </Tab.Screen>
+            <Tab.Screen name="Role">
+                {() => <FeedByRoleScreen myNewIdeaPosted={myNewIdeaPosted} />}
+            </Tab.Screen>
         </Tab.Navigator>
     );
 };

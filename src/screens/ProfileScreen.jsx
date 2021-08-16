@@ -13,24 +13,23 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // contexts
 import { UserContext } from '../contexts/userContext';
-import { MyIdeaContext } from '../contexts/myIdeaContext';
 // functions
-import { getIdeas } from '../lib/firebase';
+import { getMyIdeas } from '../lib/firebase';
 import { signOutWithGoogle } from '../lib/firebase';
 // components
 import { Loading } from '../components/Loading';
 
-export const ProfileScreen = () => {
+export const ProfileScreen = ({ myNewIdeaPosted }) => {
     const { user, setUser } = useContext(UserContext);
-    const { myIdeas, setMyIdeas } = useContext(MyIdeaContext);
+    const [myIdeas, setMyIdeas] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-        getIdeasFromFirebase();
-    }, []);
+        getMyIdeasFromFirebase();
+    }, [myNewIdeaPosted]);
 
-    const getIdeasFromFirebase = async () => {
-        const ideas = await getIdeas();
+    const getMyIdeasFromFirebase = async () => {
+        const ideas = await getMyIdeas(user.id);
         setMyIdeas(ideas);
     };
 
@@ -56,6 +55,7 @@ export const ProfileScreen = () => {
                 <Image style={styles.image} source={{ uri: user.photoURL }} />
                 <Text style={styles.name}>{user.name}</Text>
                 <Button title="Sign out" onPress={signOut} />
+                <Text>{myNewIdeaPosted.toString()}</Text>
             </View>
             <View style={styles.ideaView}>
                 {myIdeas.map((item, index) => (

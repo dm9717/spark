@@ -6,12 +6,12 @@ import { getIdeas } from '../lib/firebase';
 // components
 import { IdeaCard } from '../components/IdeaCard';
 
-export const FeedByDefaultScreen = () => {
+export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
     const [ideas, setIdeas] = useState([]);
 
     useEffect(() => {
         getIdeasFromFirebase();
-    }, [ideas]);
+    }, [myNewIdeaPosted]);
 
     const getIdeasFromFirebase = async () => {
         const ideas = await getIdeas();

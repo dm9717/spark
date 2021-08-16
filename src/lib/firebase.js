@@ -17,6 +17,17 @@ export const getIdeas = async () => {
     return ideas;
 };
 
+export const getMyIdeas = async (userId) => {
+    const ideasRef = firebase
+        .firestore()
+        .collection('ideas')
+        .where('user.id', '==', userId)
+        .orderBy('updatedAt', 'desc');
+    const ideasDoc = await ideasRef.get();
+    const ideas = ideasDoc.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+    return ideas;
+};
+
 export const createIdeaRef = async () => {
     return await firebase.firestore().collection('ideas').doc();
 };
