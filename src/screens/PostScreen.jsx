@@ -60,6 +60,7 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
                 id: user.id,
                 name: user.name,
                 username: user.username,
+                photoURL: user.photoURL,
             },
             title,
             description,

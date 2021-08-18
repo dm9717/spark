@@ -21,7 +21,6 @@ export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
     };
 
     const toIdeaDetail = (idea) => {
-        console.log('Hi');
         navigation.navigate('Idea Detail', { idea });
     };
 
