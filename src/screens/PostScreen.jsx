@@ -1,5 +1,14 @@
 import React, { useState, useContext } from 'react';
-import { StyleSheet, Text, TextInput, View, ScrollView, Button, Image } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    View,
+    ScrollView,
+    Button,
+    Image,
+    SafeAreaView,
+} from 'react-native';
 import firebase from 'firebase';
 import { Video } from 'expo-av';
 
@@ -11,11 +20,9 @@ import { getExtension } from '../utils/file';
 import { Loading } from '../components/Loading';
 // contexts
 import { UserContext } from '../contexts/userContext';
-import { MyIdeaContext } from '../contexts/myIdeaContext';
 
 export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
     const { user } = useContext(UserContext);
-    const { myIdeas, setMyIdeas } = useContext(MyIdeaContext);
     const [mediaUri, setMediaUri] = useState('');
     const [mediaType, setMediaType] = useState('image');
     const [loading, setLoading] = useState(false);
@@ -65,69 +72,72 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
         };
         // Behind the scenes, .add(...) and .doc().set(...) are completely equivalent, so you can use whichever is more convenient.
         await ideaDocRef.set(idea);
-        setMyIdeas([...myIdeas, idea]);
         setLoading(false);
         setMyNewIdeaPosted(!myNewIdeaPosted);
     };
 
     return (
-        <ScrollView style={styles.container}>
-            <Text>{myNewIdeaPosted.toString()}</Text>
-            <Text style={styles.sectionTitle}>Project Title</Text>
-            <TextInput
-                style={styles.titleInput}
-                value={title}
-                onChangeText={(input) => setTitle(input)}
-            />
-            <Text style={styles.sectionTitle}>Description</Text>
-            <TextInput
-                style={styles.descriptionInput}
-                value={description}
-                onChangeText={(input) => setDescription(input)}
-                multiline={true}
-            />
-            <Text style={styles.sectionTitle}>Main Category</Text>
-            <TextInput
-                style={styles.mainCategoryInput}
-                value={mainCategory}
-                onChangeText={(input) => setMainCategory(input)}
-            />
-            <Text style={styles.sectionTitle}>Other Categories</Text>
-            <TextInput
-                style={styles.otherCategoryInput}
-                value={otherCategory1}
-                onChangeText={(input) => setOtherCategory1(input)}
-            />
-            <TextInput
-                style={styles.otherCategoryInput}
-                value={otherCategory2}
-                onChangeText={(input) => setOtherCategory2(input)}
-            />
-            <TextInput
-                style={styles.mainCategoryInput}
-                value={otherCategory3}
-                onChangeText={(input) => setOtherCategory3(input)}
-            />
-            <Text style={styles.sectionTitle}>Roles Needed</Text>
-            <TextInput
-                style={styles.roleInput}
-                value={openRoles}
-                onChangeText={(input) => setOpenRoles(input)}
-            />
-            <Text style={styles.sectionTitle}>Media</Text>
-            <Button title="Upload" onPress={onPickMedia} />
-            {mediaType == 'image'
-                ? !!mediaUri && <Image source={{ uri: mediaUri }} style={styles.media} />
-                : !!mediaUri && <Video source={{ uri: mediaUri }} style={styles.media} />}
-            <Button title="Post My Idea!" onPress={onSubmit} />
-            <Loading visible={loading} />
-        </ScrollView>
+        <SafeAreaView style={styles.container}>
+            <ScrollView style={styles.scrollView}>
+                <Text style={styles.sectionTitle}>Project Title</Text>
+                <TextInput
+                    style={styles.titleInput}
+                    value={title}
+                    onChangeText={(input) => setTitle(input)}
+                />
+                <Text style={styles.sectionTitle}>Description</Text>
+                <TextInput
+                    style={styles.descriptionInput}
+                    value={description}
+                    onChangeText={(input) => setDescription(input)}
+                    multiline={true}
+                />
+                <Text style={styles.sectionTitle}>Main Category</Text>
+                <TextInput
+                    style={styles.mainCategoryInput}
+                    value={mainCategory}
+                    onChangeText={(input) => setMainCategory(input)}
+                />
+                <Text style={styles.sectionTitle}>Other Categories</Text>
+                <TextInput
+                    style={styles.otherCategoryInput}
+                    value={otherCategory1}
+                    onChangeText={(input) => setOtherCategory1(input)}
+                />
+                <TextInput
+                    style={styles.otherCategoryInput}
+                    value={otherCategory2}
+                    onChangeText={(input) => setOtherCategory2(input)}
+                />
+                <TextInput
+                    style={styles.mainCategoryInput}
+                    value={otherCategory3}
+                    onChangeText={(input) => setOtherCategory3(input)}
+                />
+                <Text style={styles.sectionTitle}>Roles Needed</Text>
+                <TextInput
+                    style={styles.roleInput}
+                    value={openRoles}
+                    onChangeText={(input) => setOpenRoles(input)}
+                />
+                <Text style={styles.sectionTitle}>Media</Text>
+                <Button title="Upload" onPress={onPickMedia} />
+                {mediaType == 'image'
+                    ? !!mediaUri && <Image source={{ uri: mediaUri }} style={styles.media} />
+                    : !!mediaUri && <Video source={{ uri: mediaUri }} style={styles.media} />}
+                <Button title="Post My Idea!" onPress={onSubmit} />
+                <Loading visible={loading} />
+            </ScrollView>
+        </SafeAreaView>
     );
 };
 
 const styles = StyleSheet.create({
     container: {
-        padding: 16,
+        flex: 1,
+    },
+    scrollView: {
+        // padding: 16,
     },
     sectionTitle: {
         fontSize: 22,

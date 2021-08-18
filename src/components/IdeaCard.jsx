@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, StyleSheet, Text, Dimensions, Image } from 'react-native';
+import { View, StyleSheet, Text, Dimensions, Image, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export const IdeaCard = ({ idea, onPress }) => {
-    const { description, media, mainCategory, openRoles, otherCategories, title } = idea;
+export const IdeaCard = ({ idea, toIdeaDetail, toUserProfile }) => {
+    const { description, media, mainCategory, openRoles, otherCategories, title, user } = idea;
     return (
-        <TouchableOpacity style={styles.container} onPress={onPress}>
+        <TouchableOpacity style={styles.container} onPress={toIdeaDetail}>
             <Text style={styles.mainCategory}>{mainCategory}</Text>
+            <TouchableOpacity style={styles.userButton} onPress={() => toUserProfile(user)}>
+                <Text style={styles.userButtonText}>{user.username}</Text>
+            </TouchableOpacity>
             <View style={styles.mainView}>
                 <View style={styles.subView1}>
                     {media.map((image, index) => (
@@ -47,6 +50,18 @@ const styles = StyleSheet.create({
         padding: 16,
         width: width - 32,
     },
+    mainCategory: {
+        fontFamily: 'Helvetica',
+        fontSize: 28,
+        textTransform: 'capitalize',
+        color: '#000',
+        fontWeight: 'bold',
+    },
+    userButton: {},
+    userButtonText: {
+        fontFamily: 'Helvetica',
+        color: 'blue',
+    },
     mainView: {
         flexDirection: 'row',
         // backgroundColor: 'red',
@@ -64,13 +79,6 @@ const styles = StyleSheet.create({
         marginLeft: 8,
         // backgroundColor: 'pink',
         flex: 1,
-    },
-    mainCategory: {
-        fontFamily: 'Helvetica',
-        fontSize: 28,
-        textTransform: 'capitalize',
-        color: '#000',
-        fontWeight: 'bold',
     },
     title: {
         fontFamily: 'Helvetica',

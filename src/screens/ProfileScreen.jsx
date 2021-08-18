@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import {
     StyleSheet,
     View,
+    ScrollView,
     SafeAreaView,
     Text,
     Button,
@@ -50,20 +51,21 @@ export const ProfileScreen = ({ myNewIdeaPosted }) => {
     };
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={styles.container}>
             <View style={styles.profile}>
                 <Image style={styles.image} source={{ uri: user.photoURL }} />
                 <Text style={styles.name}>{user.name}</Text>
                 <Button title="Sign out" onPress={signOut} />
-                <Text>{myNewIdeaPosted.toString()}</Text>
             </View>
-            <View style={styles.ideaView}>
-                {myIdeas.map((item, index) => (
-                    <TouchableOpacity style={styles.idea} key={index}>
-                        <Text style={styles.ideaTitle}>{item.title}</Text>
-                    </TouchableOpacity>
-                ))}
-            </View>
+            <ScrollView>
+                <View style={styles.ideaView}>
+                    {myIdeas.map((item, index) => (
+                        <TouchableOpacity style={styles.idea} key={index}>
+                            <Text style={styles.ideaTitle}>{item.title}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            </ScrollView>
             <Loading visible={loading} />
         </SafeAreaView>
     );
@@ -72,6 +74,9 @@ export const ProfileScreen = ({ myNewIdeaPosted }) => {
 const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     profile: {
         flexDirection: 'row',
         margin: 32,

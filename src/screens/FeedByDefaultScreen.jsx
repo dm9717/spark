@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 // functions
 import { getIdeas } from '../lib/firebase';
@@ -7,6 +8,7 @@ import { getIdeas } from '../lib/firebase';
 import { IdeaCard } from '../components/IdeaCard';
 
 export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
+    const navigation = useNavigation();
     const [ideas, setIdeas] = useState([]);
 
     useEffect(() => {
@@ -18,7 +20,14 @@ export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
         setIdeas(ideas);
     };
 
-    const onPressIdea = (idea) => {};
+    const toIdeaDetail = (idea) => {
+        console.log('Hi');
+        navigation.navigate('Idea Detail', { idea });
+    };
+
+    const toUserProfile = (user) => {
+        navigation.navigate('User Profile', { user });
+    };
 
     return (
         <SafeAreaView style={styles.container}>
@@ -26,7 +35,13 @@ export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
                 data={ideas}
                 // renderItem is a function
                 renderItem={({ item }) => {
-                    return <IdeaCard idea={item} onPress={() => onPressIdea(item)} />;
+                    return (
+                        <IdeaCard
+                            idea={item}
+                            toIdeaDetail={() => toIdeaDetail(item)}
+                            toUserProfile={toUserProfile}
+                        />
+                    );
                 }}
                 keyExtractor={(item, index) => index.toString()}
                 numColumns={1}

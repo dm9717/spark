@@ -4,6 +4,7 @@ import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 // Navigators
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FeedTopTabNavigator } from './FeedTopNavigator';
+import { FeedStackNavigator } from './FeedStackNavigator';
 
 // Screens
 import { PostScreen } from '../screens/PostScreen';
@@ -16,20 +17,21 @@ export const MainTabNavigator = () => {
 
     const [myNewIdeaPosted, setMyNewIdeaPosted] = useState(false);
     return (
-        <Tab.Navigator screenOptions={{ activeTintColor: '#900', inactiveTintColor: '#999' }}>
+        <Tab.Navigator>
             <Tab.Screen
-                name="Feed"
+                name="FeedStackNavigator"
                 options={{
                     tabBarLabel: 'Feed',
                     tabBarIcon: ({ color, size }) => {
                         return <AntDesign name="home" size={size} color={color} />;
                     },
+                    headerShown: false,
                 }}
             >
-                {() => <FeedTopTabNavigator myNewIdeaPosted={myNewIdeaPosted} />}
+                {() => <FeedStackNavigator myNewIdeaPosted={myNewIdeaPosted} />}
             </Tab.Screen>
             <Tab.Screen
-                name="Post"
+                name="PostScreen"
                 options={{
                     tabBarLabel: 'Post',
                     tabBarIcon: ({ color, size }) => {
@@ -45,7 +47,7 @@ export const MainTabNavigator = () => {
                 )}
             </Tab.Screen>
             <Tab.Screen
-                name="Profile"
+                name="ProfileScreen"
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ color, size }) => {
