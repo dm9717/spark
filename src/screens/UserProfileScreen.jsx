@@ -12,11 +12,11 @@ import {
 } from 'react-native';
 
 // functions
-import { getMyIdeas } from '../lib/firebase';
+import { getUsersIdeas } from '../lib/firebase';
 
 export const UserProfileScreen = ({ navigation, route }) => {
     const { user } = route.params;
-    const [ideas, setIdeas] = useState([]);
+    const [usersIdeas, setUsersIdeas] = useState([]);
 
     useEffect(() => {
         navigation.setOptions({ title: user.username });
@@ -24,8 +24,8 @@ export const UserProfileScreen = ({ navigation, route }) => {
     }, []);
 
     const getMyIdeasFromFirebase = async () => {
-        const ideas = await getMyIdeas(user.id);
-        setIdeas(ideas);
+        const ideas = await getUsersIdeas(user.id);
+        setUsersIdeas(ideas);
     };
 
     return (
@@ -36,7 +36,7 @@ export const UserProfileScreen = ({ navigation, route }) => {
             </View>
             <ScrollView>
                 <View style={styles.ideaView}>
-                    {ideas.map((item, index) => (
+                    {usersIdeas.map((item, index) => (
                         <TouchableOpacity style={styles.idea} key={index}>
                             <Text style={styles.ideaTitle}>{item.title}</Text>
                         </TouchableOpacity>

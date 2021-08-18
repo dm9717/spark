@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // contexts
 import { UserContext } from '../contexts/userContext';
 // functions
-import { getMyIdeas } from '../lib/firebase';
+import { getUsersIdeas } from '../lib/firebase';
 import { signOutWithGoogle } from '../lib/firebase';
 // components
 import { Loading } from '../components/Loading';
@@ -30,7 +30,7 @@ export const ProfileScreen = ({ myNewIdeaPosted }) => {
     }, [myNewIdeaPosted]);
 
     const getMyIdeasFromFirebase = async () => {
-        const ideas = await getMyIdeas(user.id);
+        const ideas = await getUsersIdeas(user.id);
         setMyIdeas(ideas);
     };
 

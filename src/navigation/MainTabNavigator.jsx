@@ -31,7 +31,7 @@ export const MainTabNavigator = () => {
                 {() => <FeedStackNavigator myNewIdeaPosted={myNewIdeaPosted} />}
             </Tab.Screen>
             <Tab.Screen
-                name="PostScreen"
+                name="Post"
                 options={{
                     tabBarLabel: 'Post',
                     tabBarIcon: ({ color, size }) => {
@@ -47,7 +47,7 @@ export const MainTabNavigator = () => {
                 )}
             </Tab.Screen>
             <Tab.Screen
-                name="ProfileScreen"
+                name="Profile"
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ color, size }) => {

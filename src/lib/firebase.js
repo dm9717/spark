@@ -10,14 +10,14 @@ if (!firebase.apps.length) {
     firebase.initializeApp(Constants.manifest.extra.firebase);
 }
 
-export const getIdeas = async () => {
+export const getAllIdeas = async () => {
     const ideasRef = firebase.firestore().collection('ideas').orderBy('updatedAt', 'desc');
     const ideasDoc = await ideasRef.get();
     const ideas = ideasDoc.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
     return ideas;
 };
 
-export const getMyIdeas = async (userId) => {
+export const getUsersIdeas = async (userId) => {
     const ideasRef = firebase
         .firestore()
         .collection('ideas')

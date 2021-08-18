@@ -3,7 +3,7 @@ import { StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 // functions
-import { getIdeas } from '../lib/firebase';
+import { getAllIdeas } from '../lib/firebase';
 // components
 import { IdeaCard } from '../components/IdeaCard';
 
@@ -16,7 +16,7 @@ export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
     }, [myNewIdeaPosted]);
 
     const getIdeasFromFirebase = async () => {
-        const ideas = await getIdeas();
+        const ideas = await getAllIdeas();
         setIdeas(ideas);
     };
 
