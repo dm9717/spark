@@ -1,9 +1,22 @@
 import React from 'react';
 import { View, StyleSheet, Text, Dimensions, Image, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import * as MailComposer from 'expo-mail-composer';
 
 export const IdeaCard = ({ idea, toIdeaDetail, toUserProfile }) => {
     const { description, media, mainCategory, openRoles, otherCategories, title, user } = idea;
+
+    const sendEmail = async () => {
+        const status = MailComposer.composeAsync({
+            recipients: [user.username],
+            subject: 'Interest in your idea on Spark',
+            body:
+                'Hi ' + user.name + ',\n\n' + 'Your idea is awesome. I would love to collaborate.',
+        });
+
+        console.log(status);
+    };
+
     return (
         <TouchableOpacity style={styles.container} onPress={toIdeaDetail}>
             <Text style={styles.mainCategory}>{mainCategory}</Text>
@@ -33,6 +46,9 @@ export const IdeaCard = ({ idea, toIdeaDetail, toUserProfile }) => {
                             </Text>
                         ))}
                     </View>
+                    <TouchableOpacity onPress={sendEmail}>
+                        <Text>Email</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </TouchableOpacity>
