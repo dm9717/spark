@@ -2,6 +2,7 @@ import React from 'react';
 import { View, StyleSheet, Text, Dimensions, Image, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as MailComposer from 'expo-mail-composer';
+import { Ionicons } from '@expo/vector-icons';
 
 export const IdeaCard = ({ idea, toIdeaDetail, toUserProfile }) => {
     const { description, media, mainCategory, openRoles, otherCategories, title, user } = idea;
@@ -47,7 +48,7 @@ export const IdeaCard = ({ idea, toIdeaDetail, toUserProfile }) => {
                         ))}
                     </View>
                     <TouchableOpacity onPress={sendEmail}>
-                        <Text>Email</Text>
+                        <Ionicons name="ios-mail-outline" size={24} color="black" />
                     </TouchableOpacity>
                 </View>
             </View>

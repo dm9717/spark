@@ -19,6 +19,8 @@ import { getUsersIdeas } from '../lib/firebase';
 import { signOutWithGoogle } from '../lib/firebase';
 // components
 import { Loading } from '../components/Loading';
+// navigators
+import { ProfileTabNavigator } from '../navigation/ProfileTabNavigator';
 
 export const ProfileScreen = ({ myNewIdeaPosted }) => {
     const { user, setUser } = useContext(UserContext);
@@ -57,15 +59,7 @@ export const ProfileScreen = ({ myNewIdeaPosted }) => {
                 <Text style={styles.name}>{user.name}</Text>
                 <Button title="Sign out" onPress={signOut} />
             </View>
-            <ScrollView>
-                <View style={styles.ideaView}>
-                    {myIdeas.map((item, index) => (
-                        <TouchableOpacity style={styles.idea} key={index}>
-                            <Text style={styles.ideaTitle}>{item.title}</Text>
-                        </TouchableOpacity>
-                    ))}
-                </View>
-            </ScrollView>
+            <ProfileTabNavigator myIdeas={myIdeas} />
             <Loading visible={loading} />
         </SafeAreaView>
     );
@@ -90,21 +84,5 @@ const styles = StyleSheet.create({
         fontFamily: 'HelveticaNeue',
         marginTop: 16,
         marginLeft: 16,
-    },
-    ideaView: {
-        margin: 24,
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-    },
-    idea: {
-        backgroundColor: '#FF6F62',
-        borderRadius: 30,
-        width: (width - 96) / 3,
-        height: (width - 96) / 3,
-        margin: 8,
-    },
-    ideaTitle: {
-        fontFamily: 'Helvetica',
-        margin: 12,
     },
 });
