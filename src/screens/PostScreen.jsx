@@ -56,7 +56,7 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
         // Upload an idea to Firestore
         const idea = {
             id: ideaDocRef.id,
-            user: {
+            poster: {
                 id: user.id,
                 name: user.name,
                 username: user.username,

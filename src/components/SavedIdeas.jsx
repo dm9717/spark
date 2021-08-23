@@ -1,11 +1,11 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, Dimensions, TouchableOpacity, Text } from 'react-native';
 
-export const SavedIdeas = ({ myIdeas }) => {
+export const SavedIdeas = ({ savedIdeas }) => {
     return (
         <ScrollView>
             <View style={styles.ideaView}>
-                {myIdeas.map((item, index) => (
+                {savedIdeas.map((item, index) => (
                     <TouchableOpacity style={styles.idea} key={index}>
                         <Text style={styles.ideaTitle}>{item.title}</Text>
                     </TouchableOpacity>

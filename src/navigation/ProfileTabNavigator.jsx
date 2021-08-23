@@ -7,11 +7,11 @@ import { SavedIdeas } from '../components/SavedIdeas';
 
 const Tab = createMaterialTopTabNavigator();
 
-export const ProfileTabNavigator = ({ myIdeas }) => {
+export const ProfileTabNavigator = ({ myIdeas, savedIdeas }) => {
     return (
         <Tab.Navigator>
             <Tab.Screen name="My Ideas">{() => <UserIdeas myIdeas={myIdeas} />}</Tab.Screen>
-            <Tab.Screen name="Saved">{() => <SavedIdeas myIdeas={myIdeas} />}</Tab.Screen>
+            <Tab.Screen name="Saved">{() => <SavedIdeas savedIdeas={savedIdeas} />}</Tab.Screen>
         </Tab.Navigator>
     );
 };

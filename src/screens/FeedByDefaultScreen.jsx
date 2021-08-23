@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, SafeAreaView, FlatList, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
@@ -6,9 +6,12 @@ import { useNavigation } from '@react-navigation/native';
 import { getAllIdeas } from '../lib/firebase';
 // components
 import { IdeaCard } from '../components/IdeaCard';
+// contexts
+import { UserContext } from '../contexts/userContext';
 
 export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
     const navigation = useNavigation();
+    const { user } = useContext(UserContext);
     const [ideas, setIdeas] = useState([]);
 
     useEffect(() => {
@@ -24,7 +27,7 @@ export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
         navigation.navigate('Idea Detail', { idea });
     };
 
-    const toUserProfile = (user) => {
+    const toPosterProfile = (user) => {
         navigation.navigate('User Profile', { user });
     };
 
@@ -38,7 +41,8 @@ export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
                         <IdeaCard
                             idea={item}
                             toIdeaDetail={() => toIdeaDetail(item)}
-                            toUserProfile={toUserProfile}
+                            toPosterProfile={toPosterProfile}
+                            user={user}
                         />
                     );
                 }}

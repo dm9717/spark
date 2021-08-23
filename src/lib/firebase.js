@@ -21,7 +21,7 @@ export const getUsersIdeas = async (userId) => {
     const ideasRef = firebase
         .firestore()
         .collection('ideas')
-        .where('user.id', '==', userId)
+        .where('poster.id', '==', userId)
         .orderBy('updatedAt', 'desc');
     const ideasDoc = await ideasRef.get();
     const ideas = ideasDoc.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
@@ -101,4 +101,35 @@ export const signInWithGoogle = async () => {
 
 export const signOutWithGoogle = async (accessToken) => {
     await Google.logOutAsync({ accessToken, ...config });
+};
+
+export const saveIdea = async (ideaId, userId) => {
+    const userRef = await firebase.firestore().collection('users').doc(userId);
+    const userDoc = await userRef.get();
+    const user = userDoc.data();
+    if ('savedIdeaIds' in user) {
+        let savedIdeaIds = user.savedIdeaIds;
+        if (!savedIdeaIds.includes(ideaId)) {
+            savedIdeaIds.push(ideaId);
+            userRef.update({ savedIdeaIds });
+        }
+    } else {
+        userRef.update({ savedIdeaIds: [ideaId] });
+    }
+};
+
+export const getSavedIdeas = async (userId) => {
+    const userRef = await firebase.firestore().collection('users').doc(userId);
+    const userDoc = await userRef.get();
+    const user = userDoc.data();
+    let savedIdeaIds = [];
+    if ('savedIdeaIds' in user) {
+        savedIdeaIds = user.savedIdeaIds;
+        const ideasRef = firebase.firestore().collection('ideas').where('id', 'in', savedIdeaIds);
+        const ideasDoc = await ideasRef.get();
+        const ideas = ideasDoc.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+        return ideas;
+    } else {
+        return [];
+    }
 };

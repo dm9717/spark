@@ -15,7 +15,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 // contexts
 import { UserContext } from '../contexts/userContext';
 // functions
-import { getUsersIdeas } from '../lib/firebase';
+import { getUsersIdeas, getSavedIdeas } from '../lib/firebase';
 import { signOutWithGoogle } from '../lib/firebase';
 // components
 import { Loading } from '../components/Loading';
@@ -25,15 +25,25 @@ import { ProfileTabNavigator } from '../navigation/ProfileTabNavigator';
 export const ProfileScreen = ({ myNewIdeaPosted }) => {
     const { user, setUser } = useContext(UserContext);
     const [myIdeas, setMyIdeas] = useState([]);
+    const [savedIdeas, setSavedIdeas] = useState([]);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         getMyIdeasFromFirebase();
     }, [myNewIdeaPosted]);
 
+    useEffect(() => {
+        getSavedIdeasFromFirebase();
+    });
+
     const getMyIdeasFromFirebase = async () => {
         const ideas = await getUsersIdeas(user.id);
         setMyIdeas(ideas);
+    };
+
+    const getSavedIdeasFromFirebase = async () => {
+        const ideas = await getSavedIdeas(user.id);
+        setSavedIdeas(ideas);
     };
 
     const signOut = async () => {
@@ -59,7 +69,7 @@ export const ProfileScreen = ({ myNewIdeaPosted }) => {
                 <Text style={styles.name}>{user.name}</Text>
                 <Button title="Sign out" onPress={signOut} />
             </View>
-            <ProfileTabNavigator myIdeas={myIdeas} />
+            <ProfileTabNavigator myIdeas={myIdeas} savedIdeas={savedIdeas} />
             <Loading visible={loading} />
         </SafeAreaView>
     );

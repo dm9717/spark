@@ -1,28 +1,32 @@
 import React from 'react';
-import { View, StyleSheet, Text, Dimensions, Image, Button } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { View, StyleSheet, Text, Dimensions, Image, Button, TouchableOpacity } from 'react-native';
 import * as MailComposer from 'expo-mail-composer';
-import { Ionicons } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
 
-export const IdeaCard = ({ idea, toIdeaDetail, toUserProfile }) => {
-    const { description, media, mainCategory, openRoles, otherCategories, title, user } = idea;
+// functions
+import { saveIdea } from '../lib/firebase';
+
+export const IdeaCard = ({ idea, toIdeaDetail, toPosterProfile, user }) => {
+    const { description, media, mainCategory, openRoles, otherCategories, title, poster } = idea;
 
     const sendEmail = async () => {
         const status = MailComposer.composeAsync({
-            recipients: [user.username],
+            recipients: [poster.username],
             subject: 'Interest in your idea on Spark',
             body:
-                'Hi ' + user.name + ',\n\n' + 'Your idea is awesome. I would love to collaborate.',
+                'Hi ' +
+                poster.name +
+                ',\n\n' +
+                'Your idea is awesome. I would love to collaborate.',
         });
-
         console.log(status);
     };
 
     return (
         <TouchableOpacity style={styles.container} onPress={toIdeaDetail}>
             <Text style={styles.mainCategory}>{mainCategory}</Text>
-            <TouchableOpacity style={styles.userButton} onPress={() => toUserProfile(user)}>
-                <Text style={styles.userButtonText}>{user.username}</Text>
+            <TouchableOpacity style={styles.posterButton} onPress={() => toPosterProfile(poster)}>
+                <Text style={styles.posterButtonText}>{poster.username}</Text>
             </TouchableOpacity>
             <View style={styles.mainView}>
                 <View style={styles.subView1}>
@@ -50,6 +54,9 @@ export const IdeaCard = ({ idea, toIdeaDetail, toUserProfile }) => {
                     <TouchableOpacity onPress={sendEmail}>
                         <Ionicons name="ios-mail-outline" size={24} color="black" />
                     </TouchableOpacity>
+                    <TouchableOpacity onPress={() => saveIdea(idea.id, user.id)}>
+                        <FontAwesome5 name="save" size={24} color="black" />
+                    </TouchableOpacity>
                 </View>
             </View>
         </TouchableOpacity>
@@ -74,8 +81,8 @@ const styles = StyleSheet.create({
         color: '#000',
         fontWeight: 'bold',
     },
-    userButton: {},
-    userButtonText: {
+    posterButton: {},
+    posterButtonText: {
         fontFamily: 'Helvetica',
         color: 'blue',
     },
