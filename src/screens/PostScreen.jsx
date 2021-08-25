@@ -68,6 +68,7 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
             otherCategories: [otherCategory1, otherCategory2, otherCategory3],
             openRoles: [openRoles],
             media: [donwloadUrl],
+            likedBy: [],
             createdAt: firebase.firestore.Timestamp.now(),
             updatedAt: firebase.firestore.Timestamp.now(),
         };

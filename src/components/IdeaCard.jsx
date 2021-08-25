@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, StyleSheet, Text, Dimensions, Image, Button, TouchableOpacity } from 'react-native';
 import * as MailComposer from 'expo-mail-composer';
-import { Ionicons, FontAwesome5 } from '@expo/vector-icons';
+import { Ionicons, FontAwesome5, FontAwesome, Fontisto } from '@expo/vector-icons';
 
 // functions
-import { saveIdea } from '../lib/firebase';
+import { saveIdea, likeIdea } from '../lib/firebase';
 
 export const IdeaCard = ({ idea, toIdeaDetail, toPosterProfile, user }) => {
-    const { description, media, mainCategory, openRoles, otherCategories, title, poster } = idea;
+    const { description, media, mainCategory, openRoles, otherCategories, title, poster, likedBy } =
+        idea;
+    const [numlikes, setNumLikes] = useState(likedBy.length);
+    const [liked, setLiked] = useState(false);
+    const [saved, setSaved] = useState(false);
 
     const sendEmail = async () => {
         const status = MailComposer.composeAsync({
@@ -54,9 +58,39 @@ export const IdeaCard = ({ idea, toIdeaDetail, toPosterProfile, user }) => {
                     <TouchableOpacity onPress={sendEmail}>
                         <Ionicons name="ios-mail-outline" size={24} color="black" />
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => saveIdea(idea.id, user.id)}>
-                        <FontAwesome5 name="save" size={24} color="black" />
+                    <TouchableOpacity
+                        onPress={async () => {
+                            if ((await saveIdea(idea.id, user.id)) === 'saved') {
+                                setSaved(true);
+                            } else {
+                                setSaved(false);
+                            }
+                        }}
+                    >
+                        {saved ? (
+                            <Fontisto name="bookmark-alt" size={24} color="black" />
+                        ) : (
+                            <Fontisto name="bookmark" size={24} color="black" />
+                        )}
                     </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={async () => {
+                            if ((await likeIdea(idea.id, user.id)) === 'liked') {
+                                setLiked(true);
+                                setNumLikes(numlikes + 1);
+                            } else {
+                                setLiked(false);
+                                setNumLikes(numlikes - 1);
+                            }
+                        }}
+                    >
+                        {liked ? (
+                            <FontAwesome name="heart" size={24} color="red" />
+                        ) : (
+                            <FontAwesome name="heart-o" size={24} color="black" />
+                        )}
+                    </TouchableOpacity>
+                    <Text>{numlikes}</Text>
                 </View>
             </View>
         </TouchableOpacity>
