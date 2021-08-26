@@ -15,10 +15,10 @@ export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
     const [ideas, setIdeas] = useState([]);
 
     useEffect(() => {
-        getIdeasFromFirebase();
+        getAllIdeasFromFirebase();
     }, [myNewIdeaPosted]);
 
-    const getIdeasFromFirebase = async () => {
+    const getAllIdeasFromFirebase = async () => {
         const ideas = await getAllIdeas();
         setIdeas(ideas);
     };
@@ -27,8 +27,12 @@ export const FeedByDefaultScreen = ({ myNewIdeaPosted }) => {
         navigation.navigate('Idea Detail', { idea });
     };
 
-    const toPosterProfile = (user) => {
-        navigation.navigate('User Profile', { user });
+    const toPosterProfile = (poster) => {
+        if (poster.id == user.id) {
+            navigation.navigate('My Profile', { poster });
+        } else {
+            navigation.navigate('Poster Profile', { poster });
+        }
     };
 
     return (

@@ -64,8 +64,8 @@ export const ProfileScreen = ({ myNewIdeaPosted }) => {
         }
     };
 
-    const toIdeaDetail = (idea) => {
-        navigation.navigate('Idea Detail', { idea });
+    const toIdeaDetail = (idea, fromWhere = null) => {
+        navigation.navigate('Idea Detail', { idea, fromWhere });
     };
 
     return (

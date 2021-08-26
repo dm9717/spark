@@ -14,29 +14,29 @@ import {
 // functions
 import { getUsersIdeas } from '../lib/firebase';
 
-export const UserProfileScreen = ({ navigation, route }) => {
-    const { user } = route.params;
-    const [usersIdeas, setUsersIdeas] = useState([]);
+export const PosterProfileScreen = ({ navigation, route }) => {
+    const { poster } = route.params;
+    const [postersIdeas, setPostersIdeas] = useState([]);
 
     useEffect(() => {
-        navigation.setOptions({ title: user.username });
+        navigation.setOptions({ title: poster.username });
         getMyIdeasFromFirebase();
     }, []);
 
     const getMyIdeasFromFirebase = async () => {
-        const ideas = await getUsersIdeas(user.id);
-        setUsersIdeas(ideas);
+        const ideas = await getUsersIdeas(poster.id);
+        setPostersIdeas(ideas);
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.profile}>
-                <Image style={styles.image} source={{ uri: user.photoURL }} />
-                <Text style={styles.name}>{user.name}</Text>
+                <Image style={styles.image} source={{ uri: poster.photoURL }} />
+                <Text style={styles.name}>{poster.name}</Text>
             </View>
             <ScrollView>
                 <View style={styles.ideaView}>
-                    {usersIdeas.map((item, index) => (
+                    {postersIdeas.map((item, index) => (
                         <TouchableOpacity style={styles.idea} key={index}>
                             <Text style={styles.ideaTitle}>{item.title}</Text>
                         </TouchableOpacity>

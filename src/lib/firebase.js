@@ -141,6 +141,17 @@ export const getSavedIdeas = async (userId) => {
     return ideas;
 };
 
+export const unsaveIdea = async (ideaId, userId) => {
+    const userRef = await firebase.firestore().collection('users').doc(userId);
+    const userDoc = await userRef.get();
+    const user = userDoc.data();
+
+    let savedIdeaIds = user.savedIdeaIds;
+    const indexToRemove = savedIdeaIds.indexOf(ideaId);
+    savedIdeaIds.splice(indexToRemove, 1);
+    userRef.update({ savedIdeaIds });
+};
+
 export const likeIdea = async (ideaId, userId) => {
     const userRef = await firebase.firestore().collection('users').doc(userId);
     const userDoc = await userRef.get();
@@ -173,4 +184,9 @@ export const likeIdea = async (ideaId, userId) => {
 
         return 'unliked';
     }
+};
+
+export const deleteMyIdea = async (ideaId) => {
+    const ideaRef = await firebase.firestore().collection('ideas').doc(ideaId);
+    await ideaRef.delete();
 };

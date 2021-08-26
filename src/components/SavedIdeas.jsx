@@ -9,7 +9,7 @@ export const SavedIdeas = ({ savedIdeas, toIdeaDetail }) => {
                     <TouchableOpacity
                         style={styles.idea}
                         key={index}
-                        onPress={() => toIdeaDetail(idea)}
+                        onPress={() => toIdeaDetail(idea, 'savedIdeas')}
                     >
                         <Text style={styles.ideaTitle}>{idea.title}</Text>
                     </TouchableOpacity>

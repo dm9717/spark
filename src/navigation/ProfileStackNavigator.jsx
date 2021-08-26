@@ -10,7 +10,7 @@ const Stack = createStackNavigator();
 export const ProfileStackNavigator = ({ myNewIdeaPosted }) => {
     return (
         <Stack.Navigator>
-            <Stack.Screen name="Profile">
+            <Stack.Screen name="My Profile">
                 {() => <ProfileScreen myNewIdeaPosted={myNewIdeaPosted} />}
             </Stack.Screen>
             <Stack.Screen name="Idea Detail" component={IdeaDetailScreen} />

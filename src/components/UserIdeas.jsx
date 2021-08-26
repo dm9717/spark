@@ -1,5 +1,13 @@
 import React from 'react';
-import { StyleSheet, View, ScrollView, Dimensions, TouchableOpacity, Text } from 'react-native';
+import {
+    StyleSheet,
+    View,
+    ScrollView,
+    Dimensions,
+    TouchableOpacity,
+    Text,
+    Touchable,
+} from 'react-native';
 
 export const UserIdeas = ({ myIdeas, toIdeaDetail }) => {
     return (
