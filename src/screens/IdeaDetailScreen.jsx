@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { Text } from 'react-native';
 
 export const IdeaDetailScreen = ({ navigation, route }) => {
-    //     const { user } = route.params;
-    //     useEffect(() => {
-    //         navigation.setOptions({ title: user.username });
-    //     }, []);
+    const { idea } = route.params;
+    useEffect(() => {
+        navigation.setOptions({ title: idea.title });
+    }, []);
     return <Text>IdeaDetailScreen</Text>;
 };

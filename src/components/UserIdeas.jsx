@@ -1,13 +1,17 @@
 import React from 'react';
 import { StyleSheet, View, ScrollView, Dimensions, TouchableOpacity, Text } from 'react-native';
 
-export const UserIdeas = ({ myIdeas }) => {
+export const UserIdeas = ({ myIdeas, toIdeaDetail }) => {
     return (
         <ScrollView>
             <View style={styles.ideaView}>
-                {myIdeas.map((item, index) => (
-                    <TouchableOpacity style={styles.idea} key={index}>
-                        <Text style={styles.ideaTitle}>{item.title}</Text>
+                {myIdeas.map((idea, index) => (
+                    <TouchableOpacity
+                        style={styles.idea}
+                        key={index}
+                        onPress={() => toIdeaDetail(idea)}
+                    >
+                        <Text style={styles.ideaTitle}>{idea.title}</Text>
                     </TouchableOpacity>
                 ))}
             </View>

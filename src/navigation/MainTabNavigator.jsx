@@ -5,10 +5,10 @@ import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { FeedTopTabNavigator } from './FeedTopNavigator';
 import { FeedStackNavigator } from './FeedStackNavigator';
+import { ProfileStackNavigator } from './ProfileStackNavigator';
 
 // Screens
 import { PostScreen } from '../screens/PostScreen';
-import { ProfileScreen } from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -48,15 +48,16 @@ export const MainTabNavigator = () => {
                 )}
             </Tab.Screen>
             <Tab.Screen
-                name="Profile"
+                name="ProfileStackNavigator"
                 options={{
                     tabBarLabel: 'Profile',
                     tabBarIcon: ({ color, size }) => {
                         return <FontAwesome5 name="user-circle" size={size} color={color} />;
                     },
+                    headerShown: false,
                 }}
             >
-                {() => <ProfileScreen myNewIdeaPosted={myNewIdeaPosted} />}
+                {() => <ProfileStackNavigator myNewIdeaPosted={myNewIdeaPosted} />}
             </Tab.Screen>
         </Tab.Navigator>
     );

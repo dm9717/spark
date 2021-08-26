@@ -171,6 +171,6 @@ export const likeIdea = async (ideaId, userId) => {
         likedIdeaIds.splice(ideaIndexToRemove, 1);
         userRef.update({ likedIdeaIds });
 
-        return 'like cancelled';
+        return 'unliked';
     }
 };

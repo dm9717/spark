@@ -11,6 +11,7 @@ import {
     TouchableOpacity,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 // contexts
 import { UserContext } from '../contexts/userContext';
@@ -23,6 +24,7 @@ import { Loading } from '../components/Loading';
 import { ProfileTabNavigator } from '../navigation/ProfileTabNavigator';
 
 export const ProfileScreen = ({ myNewIdeaPosted }) => {
+    const navigation = useNavigation();
     const { user, setUser } = useContext(UserContext);
     const [myIdeas, setMyIdeas] = useState([]);
     const [savedIdeas, setSavedIdeas] = useState([]);
@@ -62,6 +64,10 @@ export const ProfileScreen = ({ myNewIdeaPosted }) => {
         }
     };
 
+    const toIdeaDetail = (idea) => {
+        navigation.navigate('Idea Detail', { idea });
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.profile}>
@@ -69,7 +75,11 @@ export const ProfileScreen = ({ myNewIdeaPosted }) => {
                 <Text style={styles.name}>{user.name}</Text>
                 <Button title="Sign out" onPress={signOut} />
             </View>
-            <ProfileTabNavigator myIdeas={myIdeas} savedIdeas={savedIdeas} />
+            <ProfileTabNavigator
+                myIdeas={myIdeas}
+                savedIdeas={savedIdeas}
+                toIdeaDetail={toIdeaDetail}
+            />
             <Loading visible={loading} />
         </SafeAreaView>
     );
