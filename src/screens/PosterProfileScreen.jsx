@@ -31,7 +31,7 @@ export const PosterProfileScreen = ({ navigation, route }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.profile}>
-                <Image style={styles.image} source={{ uri: poster.photoURL }} />
+                <Image style={styles.icon} source={{ uri: poster.photoURL }} />
                 <Text style={styles.name}>{poster.name}</Text>
             </View>
             <ScrollView>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         margin: 32,
     },
-    image: {
+    icon: {
         width: (width - 32) * 0.25,
         height: (width - 32) * 0.25,
         borderRadius: ((width - 32) * 0.25) / 2,
