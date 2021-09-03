@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
     View,
     StyleSheet,
@@ -10,7 +10,8 @@ import {
     Touchable,
 } from 'react-native';
 import * as MailComposer from 'expo-mail-composer';
-import { Ionicons, FontAwesome5, FontAwesome, Fontisto } from '@expo/vector-icons';
+import { FontAwesome, Fontisto } from '@expo/vector-icons';
+import ViewMoreText from 'react-native-view-more-text';
 
 // functions
 import { saveIdea, likeIdea } from '../lib/firebase';
@@ -53,6 +54,22 @@ export const IdeaCard = ({ idea, toIdeaDetail, toPosterProfile, user }) => {
         }
     };
 
+    const expandText = (onMore) => {
+        description;
+        return (
+            <Text style={{ color: '#737070' }} onPress={onMore}>
+                more
+            </Text>
+        );
+    };
+    const truncateText = (onLess) => {
+        return (
+            <Text style={{ color: '#737070' }} onPress={onLess}>
+                less
+            </Text>
+        );
+    };
+
     return (
         <TouchableOpacity style={styles.container} onPress={toIdeaDetail}>
             <Text style={styles.title}>{title}</Text>
@@ -78,13 +95,20 @@ export const IdeaCard = ({ idea, toIdeaDetail, toPosterProfile, user }) => {
                         ))}
                     </View>
                     <View style={styles.subView2}>
-                        <Text style={styles.description}>{description}</Text>
+                        <View style={styles.descriptionView}>
+                            <ViewMoreText
+                                numberOfLines={7}
+                                renderViewMore={expandText}
+                                renderViewLess={truncateText}
+                                textStyle={{}}
+                            >
+                                <Text style={styles.description}>{description}</Text>
+                            </ViewMoreText>
+                        </View>
                         <View style={styles.otherCategories}>
                             {otherCategories.map((category, index) => (
-                                <View style={styles.otherCategoryView}>
-                                    <Text style={styles.otherCategoryText} key={index}>
-                                        {category}
-                                    </Text>
+                                <View style={styles.otherCategoryView} key={index}>
+                                    <Text style={styles.otherCategoryText}>{category}</Text>
                                 </View>
                             ))}
                         </View>
@@ -194,11 +218,13 @@ const styles = StyleSheet.create({
         // backgroundColor: 'pink',
         flex: 0.6,
     },
+    descriptionView: {
+        marginBottom: 12,
+    },
     description: {
         fontFamily: 'Helvetica',
         fontSize: 15,
         color: '#000',
-        marginBottom: 12,
     },
     otherCategories: {
         flexDirection: 'row',
