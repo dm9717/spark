@@ -55,7 +55,6 @@ export const IdeaCard = ({ idea, toIdeaDetail, toPosterProfile, user }) => {
     };
 
     const expandText = (onMore) => {
-        description;
         return (
             <Text style={{ color: '#737070' }} onPress={onMore}>
                 more
@@ -75,7 +74,7 @@ export const IdeaCard = ({ idea, toIdeaDetail, toPosterProfile, user }) => {
             <Text style={styles.title}>{title}</Text>
             <View style={styles.mainView}>
                 <View style={styles.topSubView}>
-                    <View style={styles.subView1}>
+                    <View style={styles.posterTagView}>
                         <View style={styles.posterView}>
                             <TouchableOpacity onPress={() => toPosterProfile(poster)}>
                                 <Image
@@ -90,14 +89,18 @@ export const IdeaCard = ({ idea, toIdeaDetail, toPosterProfile, user }) => {
                                 <Text style={styles.posterNameText}>{poster.name}</Text>
                             </TouchableOpacity>
                         </View>
-                        {media.map((image, index) => (
-                            <Image style={styles.image} source={{ uri: image }} key={index} />
-                        ))}
+                        <View style={styles.otherCategories}>
+                            {otherCategories.map((category, index) => (
+                                <View style={styles.otherCategoryView} key={index}>
+                                    <Text style={styles.otherCategoryText}>{category}</Text>
+                                </View>
+                            ))}
+                        </View>
                     </View>
-                    <View style={styles.subView2}>
+                    <View style={styles.descriptionImageView}>
                         <View style={styles.descriptionView}>
                             <ViewMoreText
-                                numberOfLines={7}
+                                numberOfLines={5}
                                 renderViewMore={expandText}
                                 renderViewLess={truncateText}
                                 textStyle={{}}
@@ -105,11 +108,9 @@ export const IdeaCard = ({ idea, toIdeaDetail, toPosterProfile, user }) => {
                                 <Text style={styles.description}>{description}</Text>
                             </ViewMoreText>
                         </View>
-                        <View style={styles.otherCategories}>
-                            {otherCategories.map((category, index) => (
-                                <View style={styles.otherCategoryView} key={index}>
-                                    <Text style={styles.otherCategoryText}>{category}</Text>
-                                </View>
+                        <View style={styles.imageView}>
+                            {media.map((image, index) => (
+                                <Image style={styles.image} source={{ uri: image }} key={index} />
                             ))}
                         </View>
                         {/* <View style={styles.openRoles}>
@@ -176,24 +177,18 @@ const styles = StyleSheet.create({
         // backgroundColor: 'red',
     },
     topSubView: {
+        // backgroundColor: 'red',
+    },
+    posterTagView: {
         flexDirection: 'row',
-        marginBottom: 20,
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 8,
+        // backgroundColor: 'lightgreen',
     },
-    subView1: {
-        // backgroundColor: 'pink',
-        flex: 0.4,
-    },
-    // mainCategory: {
-    //     fontFamily: 'Helvetica',
-    //     fontSize: 28,
-    //     textTransform: 'capitalize',
-    //     color: '#000',
-    //     fontWeight: 'bold',
-    // },
     posterView: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 8,
     },
     posterName: {
         flexShrink: 1,
@@ -208,28 +203,27 @@ const styles = StyleSheet.create({
         height: 36,
         borderRadius: 18,
     },
-    image: {
-        flex: 1,
-        resizeMode: 'cover',
-        borderRadius: 12,
-    },
-    subView2: {
-        marginLeft: 8,
+    descriptionImageView: {
+        flexDirection: 'row',
+        marginLeft: 40,
         // backgroundColor: 'pink',
-        flex: 0.6,
+        marginBottom: 16,
     },
     descriptionView: {
-        marginBottom: 12,
+        flex: 1,
     },
     description: {
         fontFamily: 'Helvetica',
         fontSize: 15,
         color: '#000',
     },
-    otherCategories: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        // backgroundColor: 'lightblue',
+    imageView: {
+        // flex: 0.3,
+    },
+    image: {
+        flex: 1,
+        resizeMode: 'cover',
+        borderRadius: 12,
     },
     otherCategoryView: {
         backgroundColor: '#E0E0E0',
@@ -239,25 +233,21 @@ const styles = StyleSheet.create({
         paddingBottom: 3,
         paddingHorizontal: 4,
     },
+    otherCategories: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        // backgroundColor: 'lightblue',
+    },
     otherCategoryText: {
         fontFamily: 'Helvetica',
         fontSize: 12,
         color: '#000',
     },
-    // openRoles: {
-    //     flexDirection: 'row',
-    //     backgroundColor: 'lightblue',
-    // },
-    // openRole: {
-    //     fontFamily: 'Helvetica',
-    //     fontSize: 14,
-    //     color: '#000',
-    //     marginRight: 8,
-    // },
     bottomSubView: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         height: 40,
+        marginLeft: 40,
     },
     collaborataButton: {
         flex: 0.6,
@@ -283,4 +273,22 @@ const styles = StyleSheet.create({
     // likeButton: { backgroundColor: 'red' },
     likeCount: { fontFamily: 'Helvetica', fontSize: 11 },
     saveButton: {},
+
+    // mainCategory: {
+    //     fontFamily: 'Helvetica',
+    //     fontSize: 28,
+    //     textTransform: 'capitalize',
+    //     color: '#000',
+    //     fontWeight: 'bold',
+    // },
+    // openRoles: {
+    //     flexDirection: 'row',
+    //     backgroundColor: 'lightblue',
+    // },
+    // openRole: {
+    //     fontFamily: 'Helvetica',
+    //     fontSize: 14,
+    //     color: '#000',
+    //     marginRight: 8,
+    // },
 });

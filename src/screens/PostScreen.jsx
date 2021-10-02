@@ -8,7 +8,12 @@ import {
     Button,
     Image,
     SafeAreaView,
+    KeyboardAvoidingView,
+    Platform,
+    TouchableWithoutFeedback,
+    Keyboard,
 } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import firebase from 'firebase';
 import { Video } from 'expo-av';
 
@@ -33,6 +38,7 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
     const [otherCategory3, setOtherCategory3] = useState('');
     const [description, setDescription] = useState('');
     const [openRoles, setOpenRoles] = useState('');
+    const [avoidKeyboard, setAvoidKeyboard] = useState(false);
 
     const onPickMedia = async () => {
         const result = await pickMedia();
@@ -80,56 +86,66 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView style={styles.scrollView}>
-                <Text style={styles.sectionTitle}>Project Title</Text>
-                <TextInput
-                    style={styles.titleInput}
-                    value={title}
-                    onChangeText={(input) => setTitle(input)}
-                />
-                <Text style={styles.sectionTitle}>Description</Text>
-                <TextInput
-                    style={styles.descriptionInput}
-                    value={description}
-                    onChangeText={(input) => setDescription(input)}
-                    multiline={true}
-                />
-                <Text style={styles.sectionTitle}>Main Category</Text>
-                <TextInput
-                    style={styles.mainCategoryInput}
-                    value={mainCategory}
-                    onChangeText={(input) => setMainCategory(input)}
-                />
-                <Text style={styles.sectionTitle}>Other Categories</Text>
-                <TextInput
-                    style={styles.otherCategoryInput}
-                    value={otherCategory1}
-                    onChangeText={(input) => setOtherCategory1(input)}
-                />
-                <TextInput
-                    style={styles.otherCategoryInput}
-                    value={otherCategory2}
-                    onChangeText={(input) => setOtherCategory2(input)}
-                />
-                <TextInput
-                    style={styles.mainCategoryInput}
-                    value={otherCategory3}
-                    onChangeText={(input) => setOtherCategory3(input)}
-                />
-                <Text style={styles.sectionTitle}>Roles Needed</Text>
+            <KeyboardAwareScrollView>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    {/* <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'position' : 'height'}
+                    keyboardVerticalOffset={0}
+                > */}
+                    <View style={styles.mainView}>
+                        <Text style={styles.sectionTitle}>Idea Title</Text>
+                        <TextInput
+                            style={styles.titleInput}
+                            value={title}
+                            onChangeText={(input) => setTitle(input)}
+                            onPressIn={() => ScrollView.scrollTo({ x: 0, y: 300, animated: false })}
+                        />
+                        <Text style={styles.sectionTitle}>Description</Text>
+                        <TextInput
+                            style={styles.descriptionInput}
+                            value={description}
+                            onChangeText={(input) => setDescription(input)}
+                            multiline={true}
+                        />
+                        <Text style={styles.sectionTitle}>Category</Text>
+                        <TextInput
+                            style={styles.mainCategoryInput}
+                            value={mainCategory}
+                            onChangeText={(input) => setMainCategory(input)}
+                        />
+                        <Text style={styles.sectionTitle}>Tag</Text>
+                        <TextInput
+                            style={styles.otherCategoryInput}
+                            value={otherCategory1}
+                            onChangeText={(input) => setOtherCategory1(input)}
+                        />
+                        <TextInput
+                            style={styles.otherCategoryInput}
+                            value={otherCategory2}
+                            onChangeText={(input) => setOtherCategory2(input)}
+                        />
+                        <TextInput
+                            style={styles.mainCategoryInput}
+                            value={otherCategory3}
+                            onChangeText={(input) => setOtherCategory3(input)}
+                        />
+                        {/* <Text style={styles.sectionTitle}>Roles Needed</Text>
                 <TextInput
                     style={styles.roleInput}
                     value={openRoles}
                     onChangeText={(input) => setOpenRoles(input)}
-                />
-                <Text style={styles.sectionTitle}>Media</Text>
+                /> */}
+                        {/* <Text style={styles.sectionTitle}>Media</Text>
                 <Button title="Upload" onPress={onPickMedia} />
                 {mediaType == 'image'
                     ? !!mediaUri && <Image source={{ uri: mediaUri }} style={styles.media} />
-                    : !!mediaUri && <Video source={{ uri: mediaUri }} style={styles.media} />}
-                <Button title="Post My Idea!" onPress={onSubmit} />
+                    : !!mediaUri && <Video source={{ uri: mediaUri }} style={styles.media} />} */}
+                        <Button title="Post My Idea!" onPress={onSubmit} />
+                    </View>
+                    {/* </KeyboardAvoidingView> */}
+                </TouchableWithoutFeedback>
                 <Loading visible={loading} />
-            </ScrollView>
+            </KeyboardAwareScrollView>
         </SafeAreaView>
     );
 };
@@ -141,33 +157,49 @@ const styles = StyleSheet.create({
     scrollView: {
         // padding: 16,
     },
+    mainView: {
+        margin: 16,
+        justifyContent: 'flex-start',
+    },
     sectionTitle: {
-        fontSize: 22,
+        fontSize: 20,
         marginBottom: 8,
     },
     titleInput: {
-        height: 22,
+        fontSize: 16,
+        height: 36,
         borderColor: '#999',
         borderWidth: 0.5,
+        borderRadius: 10,
         marginBottom: 32,
+        paddingHorizontal: 10,
     },
     descriptionInput: {
-        height: 66,
+        fontSize: 16,
+        height: 108,
         borderColor: '#999',
         borderWidth: 0.5,
+        borderRadius: 10,
         marginBottom: 32,
+        paddingHorizontal: 10,
     },
     mainCategoryInput: {
-        height: 22,
+        fontSize: 16,
+        height: 36,
         borderColor: '#999',
         borderWidth: 0.5,
+        borderRadius: 10,
         marginBottom: 32,
+        paddingHorizontal: 10,
     },
     otherCategoryInput: {
-        height: 22,
+        fontSize: 16,
+        height: 36,
         borderColor: '#999',
         borderWidth: 0.5,
+        borderRadius: 10,
         marginBottom: 8,
+        paddingHorizontal: 10,
     },
     roleInput: {
         height: 22,
