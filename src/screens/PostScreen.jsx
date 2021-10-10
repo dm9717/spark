@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import {
     StyleSheet,
     Text,
@@ -12,6 +12,8 @@ import {
     Platform,
     TouchableWithoutFeedback,
     Keyboard,
+    TouchableOpacity,
+    Dimensions,
 } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import firebase from 'firebase';
@@ -39,6 +41,12 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
     const [description, setDescription] = useState('');
     const [openRoles, setOpenRoles] = useState('');
     const [avoidKeyboard, setAvoidKeyboard] = useState(false);
+
+    const descriptionTextInput = useRef(null);
+    const mainCategoryTextInput = useRef(null);
+    const otherCategory1TextInput = useRef(null);
+    const otherCategory2TextInput = useRef(null);
+    const otherCategory3TextInput = useRef(null);
 
     const onPickMedia = async () => {
         const result = await pickMedia();
@@ -98,7 +106,10 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
                             style={styles.titleInput}
                             value={title}
                             onChangeText={(input) => setTitle(input)}
-                            onPressIn={() => ScrollView.scrollTo({ x: 0, y: 300, animated: false })}
+                            autoFocus={true}
+                            returnKeyType="next"
+                            onSubmitEditing={() => descriptionTextInput.current.focus()}
+                            blurOnSubmit={false}
                         />
                         <Text style={styles.sectionTitle}>Description</Text>
                         <TextInput
@@ -106,28 +117,46 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
                             value={description}
                             onChangeText={(input) => setDescription(input)}
                             multiline={true}
+                            ref={descriptionTextInput}
+                            returnKeyType="next"
+                            onSubmitEditing={() => mainCategoryTextInput.current.focus()}
+                            blurOnSubmit={false}
                         />
                         <Text style={styles.sectionTitle}>Category</Text>
                         <TextInput
                             style={styles.mainCategoryInput}
                             value={mainCategory}
                             onChangeText={(input) => setMainCategory(input)}
+                            ref={mainCategoryTextInput}
+                            returnKeyType="next"
+                            onSubmitEditing={() => otherCategory1TextInput.current.focus()}
+                            blurOnSubmit={false}
                         />
                         <Text style={styles.sectionTitle}>Tag</Text>
                         <TextInput
                             style={styles.otherCategoryInput}
                             value={otherCategory1}
                             onChangeText={(input) => setOtherCategory1(input)}
+                            ref={otherCategory1TextInput}
+                            returnKeyType="next"
+                            onSubmitEditing={() => otherCategory2TextInput.current.focus()}
+                            blurOnSubmit={false}
                         />
                         <TextInput
                             style={styles.otherCategoryInput}
                             value={otherCategory2}
                             onChangeText={(input) => setOtherCategory2(input)}
+                            ref={otherCategory2TextInput}
+                            returnKeyType="next"
+                            onSubmitEditing={() => otherCategory3TextInput.current.focus()}
+                            blurOnSubmit={false}
                         />
                         <TextInput
                             style={styles.mainCategoryInput}
                             value={otherCategory3}
                             onChangeText={(input) => setOtherCategory3(input)}
+                            ref={otherCategory3TextInput}
+                            returnKeyType="done"
                         />
                         {/* <Text style={styles.sectionTitle}>Roles Needed</Text>
                 <TextInput
@@ -140,7 +169,9 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
                 {mediaType == 'image'
                     ? !!mediaUri && <Image source={{ uri: mediaUri }} style={styles.media} />
                     : !!mediaUri && <Video source={{ uri: mediaUri }} style={styles.media} />} */}
-                        <Button title="Post My Idea!" onPress={onSubmit} />
+                        <TouchableOpacity style={styles.postButton} onPress={onSubmit}>
+                            <Text style={styles.postButtonText}>Post My Idea!</Text>
+                        </TouchableOpacity>
                     </View>
                     {/* </KeyboardAvoidingView> */}
                 </TouchableWithoutFeedback>
@@ -149,6 +180,8 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
         </SafeAreaView>
     );
 };
+
+const { width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
@@ -211,5 +244,20 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         margin: 8,
+    },
+    postButton: {
+        height: width * 0.12,
+        width: width * 0.6,
+        alignSelf: 'center',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: width * 0.12,
+        backgroundColor: '#F9D80D',
+        marginBottom: 8,
+    },
+    postButtonText: {
+        fontFamily: 'Helvetica',
+        fontSize: 16,
+        fontWeight: 'bold',
     },
 });
