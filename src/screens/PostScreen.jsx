@@ -40,13 +40,20 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
     const [otherCategory3, setOtherCategory3] = useState('');
     const [description, setDescription] = useState('');
     const [openRoles, setOpenRoles] = useState('');
-    const [avoidKeyboard, setAvoidKeyboard] = useState(false);
+    const [mainCategorySelection, setMainCategorySelection] = useState([
+        false,
+        false,
+        false,
+        false,
+        false,
+    ]);
 
     const descriptionTextInput = useRef(null);
     const mainCategoryTextInput = useRef(null);
     const otherCategory1TextInput = useRef(null);
     const otherCategory2TextInput = useRef(null);
     const otherCategory3TextInput = useRef(null);
+    const numMainCategories = 5;
 
     const onPickMedia = async () => {
         const result = await pickMedia();
@@ -92,6 +99,17 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
         setMyNewIdeaPosted(!myNewIdeaPosted);
     };
 
+    const onSelectMainCategory = (categoryIndex) => {
+        let newMainCategorySelection = [...mainCategorySelection];
+        for (let i = 0; i < numMainCategories; i++) {
+            if (mainCategorySelection[i] === true) {
+                newMainCategorySelection[i] = false;
+            }
+        }
+        newMainCategorySelection[categoryIndex] = true;
+        setMainCategorySelection([...newMainCategorySelection]);
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <KeyboardAwareScrollView>
@@ -123,6 +141,143 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
                             blurOnSubmit={false}
                         />
                         <Text style={styles.sectionTitle}>Category</Text>
+                        <View style={styles.mainCategoryView}>
+                            <TouchableOpacity
+                                style={
+                                    mainCategorySelection[0]
+                                        ? {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#FF6F62',
+                                          }
+                                        : {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#ff6f6233',
+                                          }
+                                }
+                                onPress={() => onSelectMainCategory(0)}
+                            >
+                                <Text
+                                    style={
+                                        mainCategorySelection[0]
+                                            ? { ...styles.mainCategoryButtonText, color: 'black' }
+                                            : {
+                                                  ...styles.mainCategoryButtonText,
+                                                  color: '#00000033',
+                                              }
+                                    }
+                                >
+                                    Just Idea
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={
+                                    mainCategorySelection[1]
+                                        ? {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#97DDDD',
+                                          }
+                                        : {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#97dddd33',
+                                          }
+                                }
+                                onPress={() => onSelectMainCategory(1)}
+                            >
+                                <Text
+                                    style={
+                                        mainCategorySelection[1]
+                                            ? { ...styles.mainCategoryButtonText, color: 'black' }
+                                            : {
+                                                  ...styles.mainCategoryButtonText,
+                                                  color: '#00000033',
+                                              }
+                                    }
+                                >
+                                    For Fun
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={
+                                    mainCategorySelection[2]
+                                        ? {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#F9AB12',
+                                          }
+                                        : {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#f9ab1233',
+                                          }
+                                }
+                                onPress={() => onSelectMainCategory(2)}
+                            >
+                                <Text
+                                    style={
+                                        mainCategorySelection[2]
+                                            ? { ...styles.mainCategoryButtonText, color: 'black' }
+                                            : {
+                                                  ...styles.mainCategoryButtonText,
+                                                  color: '#00000033',
+                                              }
+                                    }
+                                >
+                                    Personal
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={
+                                    mainCategorySelection[3]
+                                        ? {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#D3DE16',
+                                          }
+                                        : {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#d3de1633',
+                                          }
+                                }
+                                onPress={() => onSelectMainCategory(3)}
+                            >
+                                <Text
+                                    style={
+                                        mainCategorySelection[3]
+                                            ? { ...styles.mainCategoryButtonText, color: 'black' }
+                                            : {
+                                                  ...styles.mainCategoryButtonText,
+                                                  color: '#00000033',
+                                              }
+                                    }
+                                >
+                                    Academic
+                                </Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                style={
+                                    mainCategorySelection[4]
+                                        ? {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#C286FF',
+                                          }
+                                        : {
+                                              ...styles.mainCategoryButton,
+                                              backgroundColor: '#c286ff33',
+                                          }
+                                }
+                                onPress={() => onSelectMainCategory(4)}
+                            >
+                                <Text
+                                    style={
+                                        mainCategorySelection[4]
+                                            ? { ...styles.mainCategoryButtonText, color: 'black' }
+                                            : {
+                                                  ...styles.mainCategoryButtonText,
+                                                  color: '#00000033',
+                                              }
+                                    }
+                                >
+                                    Projects
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
                         <TextInput
                             style={styles.mainCategoryInput}
                             value={mainCategory}
@@ -132,6 +287,15 @@ export const PostScreen = ({ myNewIdeaPosted, setMyNewIdeaPosted }) => {
                             onSubmitEditing={() => otherCategory1TextInput.current.focus()}
                             blurOnSubmit={false}
                         />
+                        {/* <TextInput
+                            style={styles.mainCategoryInput}
+                            value={mainCategory}
+                            onChangeText={(input) => setMainCategory(input)}
+                            ref={mainCategoryTextInput}
+                            returnKeyType="next"
+                            onSubmitEditing={() => otherCategory1TextInput.current.focus()}
+                            blurOnSubmit={false}
+                        /> */}
                         <Text style={styles.sectionTitle}>Tag</Text>
                         <TextInput
                             style={styles.otherCategoryInput}
@@ -215,6 +379,22 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginBottom: 32,
         paddingHorizontal: 10,
+    },
+    mainCategoryView: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+    },
+    mainCategoryButton: {
+        height: width * 0.1,
+        width: width * 0.25,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: width * 0.1,
+        marginBottom: 8,
+        marginRight: 8,
+    },
+    mainCategoryButtonText: {
+        fontSize: 16,
     },
     mainCategoryInput: {
         fontSize: 16,
